@@ -5,8 +5,6 @@ from time import sleep
 import csv
 import threading
 
-
-
 measureflag = False
 thred_value = None
 
@@ -24,12 +22,10 @@ def button_click():
         thred_value.start()
 
 def eeg_loger():
-    
     port = input_port.get()
     eegkind = input_EEGKind.get()
     directory = input_dir.get()
     filename = input_file.get()
-    
     
     global measureflag
     measureflag = True
@@ -51,8 +47,7 @@ def eeg_loger():
                 writer.writerow(eeg.df)
             
         except Exception as e:
-            print e
-            
+            print e           
 
 def stoping():
     global measureflag
@@ -60,7 +55,6 @@ def stoping():
     
     global thred_value
     thred_value.join()
-    
 
 root = tkinter.Tk()
 root.title('EEG Measuring soft')

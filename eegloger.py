@@ -1,5 +1,4 @@
 from NeuroPy import NeuroPy
-import pandas as pd
 from time import sleep
 
 class NeuroLog(object):
