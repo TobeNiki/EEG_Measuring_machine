@@ -1,5 +1,4 @@
 from NeuroPy import NeuroPy
-from time import sleep
 
 class NeuroLog(object):
     def __init__(self,PORT='COM3'):

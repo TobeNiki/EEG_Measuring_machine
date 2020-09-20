@@ -36,16 +36,20 @@ def eeg_loger():
         eeg.headset.start()
         while measureflag == True:
             sleep(1)
-        
+        eeg.headset.stop()
+        recodeFlag = True
     except Exception as e:
+        recodeFlag = False
         print e
     finally:
-        eeg.headset.stop()
         try:
-            with open('{0}\\eeglog_{1}_{2}.csv'.format(directory,eegkind,filename),'w') as f:
-                writer = csv.writer(f)
-                writer.writerow(eeg.df)
-            
+            if recodeFlag:
+                with open('{0}\\eeglog_{1}_{2}.csv'.format(directory,eegkind,filename),'w') as f:
+                    writer = csv.writer(f)
+                    writer.writerow(eeg.df)
+                recodeFlag = False
+            else:
+                pass
         except Exception as e:
             print e           
 
