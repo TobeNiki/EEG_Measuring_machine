@@ -1,10 +1,13 @@
-import tkinter
-from tkinter import messagebox
+import Tkinter as tkinter
+#from Tkinter import messagebox
+import tkMessageBox as messagebox
 from eegloger import NeuroLog
 from time import sleep
 import csv
 import threading
-
+import pandas as pd
+import numpy as np
+import datetime
 measureflag = False
 thred_value = None
 
@@ -44,14 +47,38 @@ def eeg_loger():
     finally:
         try:
             if recodeFlag:
-                with open('{0}\\eeglog_{1}_{2}.csv'.format(directory,eegkind,filename),'w') as f:
-                    writer = csv.writer(f)
-                    writer.writerow(eeg.df)
+                if eegkind == "eeg":
+                    """
+                    eeg_dataframe = pd.DataFrame({'lowAlphaTimeStamp':eeg.time_lowA,'lowAlpha':eeg.df_lowAlpha,
+                                                  'highAlphaTimStamp':eeg.time_highA,'highAlpha':eeg.df_highAlpha,
+                                                  'lowBetaTimeStamp':eeg.time_lowB,'lowBeta':eeg.df_lowBeta,
+                                                  'highBetaTimeStamp':eeg.time_highB,'highBeta':eeg.df_highBeta,
+                                                  'lowGammaTimeStamp':eeg.time_lowG,'lowGamma':eeg.df_lowGamma,
+                                                  'midGammaTimeStamp':eeg.time_midG,'midGamma':eeg.df_midGamma,
+                                                  'deltaTimeStamp':eeg.time_delta,'delta':eeg.df_delta,
+                                                  'thetaTimeStamp':eeg.time_theta,'theta':eeg.df_theta})
+                    """
+                    eeg_dataframe = pd.DataFrame({'TimeStamp':eeg.time_midG,
+                                                  'lowAlpha':eeg.df_lowAlpha,
+                                                  'highAlpha':eeg.df_highAlpha,
+                                                  'lowBeta':eeg.df_lowBeta,
+                                                  'highBeta':eeg.df_highBeta,
+                                                  'lowGamma':eeg.df_lowGamma,
+                                                  'midGamma':eeg.df_midGamma,
+                                                  'delta':eeg.df_delta,
+                                                  'theta':eeg.df_theta})
+                    eeg_dataframe.to_csv('{0}\\eeglog_{1}_{2}.csv'.format(directory,eegkind,filename))
+                else:
+                    with open('{0}\\eeglog_{1}_{2}.csv'.format(directory,eegkind,filename),'w') as f:
+                        writer = csv.writer(f)
+                        writer.writerow(eeg.df)
                 recodeFlag = False
             else:
                 pass
         except Exception as e:
-            print e           
+            print("filesavederror|{}".format(e))
+            print(eeg.df)
+            
 
 def stoping():
     global measureflag
